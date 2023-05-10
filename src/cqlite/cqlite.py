@@ -107,20 +107,17 @@ def guess_types(cols):
 
 
 def load_csv_file(file_path: Path):
-    try:
-        with file_path.open("r") as f:
-            csvreader = reader(f)
-            headers = next(csvreader)
-            header_names = [
-                c.strip().replace(" ", "_").replace("-", " ") for c in headers
-            ]
-            rows = list(csvreader)
-            cols = rotate_n_rows(rows, 8)
-            types = guess_types(cols)
-            headers = list(zip(header_names, types))
-            return headers, rows
-    except FileNotFoundError as e:
-        raise
+    with file_path.open("r") as f:
+        csvreader = reader(f)
+        headers = next(csvreader)
+        header_names = [
+            c.strip().replace(" ", "_").replace("-", " ") for c in headers
+        ]
+        rows = list(csvreader)
+        cols = rotate_n_rows(rows, 8)
+        types = guess_types(cols)
+        headers = list(zip(header_names, types))
+        return headers, rows
 
 
 def populate_database(conn, cur, name, headers, rows):
@@ -162,8 +159,14 @@ def main(
     persist: bool = typer.Option(False, help="Save input to sqlite file."),
 ):
     file_path = Path(path_to_csv)
+    if not file_path.exists():
+        print(f"No such file: '{file_path}'")
+        exit(1)
     name = file_path.stem
     headers, rows = load_csv_file(file_path)
+
+    if not query and not persist:
+        print("Must supply a query or specify that you want the file contents saved to a sqlite file.")
 
     if persist:
         db_path = file_path.parent / f"{name}.db"
@@ -181,7 +184,7 @@ def main(
             print_results(results, result_headers, name)
         except sqlite3.OperationalError as e:
             print(e)
-            
+
 def run_with_typer():
     typer.run(main)
 
