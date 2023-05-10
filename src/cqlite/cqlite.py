@@ -167,6 +167,7 @@ def main(
     except Exception as e:
         print(f"Unable to load {file_path}. Perhaps it is not a CSV file?")
         exit(1)
+    
     if not query and not persist:
         print("Must supply a query or specify that you want the file contents saved to a sqlite file.")
 
@@ -178,12 +179,12 @@ def main(
     # conn = sqlite3.connect("test.db")
     cur = conn.cursor()
 
-    conn, cur = populate_database(conn, cur, name, headers, rows)
+    conn, cur = populate_database(conn, cur, "csv", headers, rows)
 
     if query:
         try:
             results, result_headers = execute_query(cur, query)
-            print_results(results, result_headers, name)
+            print_results(results, result_headers, "csv")
         except sqlite3.OperationalError as e:
             print(e)
 

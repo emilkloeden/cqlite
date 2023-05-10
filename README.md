@@ -20,6 +20,8 @@ e.g.
 cqlite fakedata.csv "SELECT * FROM csv WHERE name LIKE '%Tommy% AND date_of_birth < '1980-01-01';"
 ```
 
+(note filedata is loaded into a table called "csv").
+
 Save `<csv_file>.csv as a SQLite database (<csv_file>.db):
 
 ```sh
