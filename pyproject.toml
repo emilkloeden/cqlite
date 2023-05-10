@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cqlite"
+version = "0.0.1"
+authors = [
+  { name="Emil Kloeden", email="emilkloeden@gmail.com" },
+]
+description = "Query a CSV file from the commandline"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "typer==0.7.0",
+  "rich==12.6.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/emilkloeden/cqlite"
+"Bug Tracker" = "https://github.com/emilkloeden/cqlite/issues"
+
+[project.scripts]
+"cqlite" = "cqlite.cqlite:run_with_typer" 
