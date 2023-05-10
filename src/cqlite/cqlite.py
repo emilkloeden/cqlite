@@ -119,7 +119,6 @@ def load_csv_file(file_path: Path):
         headers = list(zip(header_names, types))
         return headers, rows
 
-
 def populate_database(conn, cur, name, headers, rows):
     cur.execute(f"DROP TABLE IF EXISTS {name};")
     conn.commit()
@@ -163,8 +162,11 @@ def main(
         print(f"No such file: '{file_path}'")
         exit(1)
     name = file_path.stem
-    headers, rows = load_csv_file(file_path)
-
+    try:
+        headers, rows = load_csv_file(file_path)
+    except Exception as e:
+        print(f"Unable to load {file_path}. Perhaps it is not a CSV file?")
+        exit(1)
     if not query and not persist:
         print("Must supply a query or specify that you want the file contents saved to a sqlite file.")
 

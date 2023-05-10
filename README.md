@@ -10,24 +10,18 @@ Query a CSV file from the commandline
 
 In memory query:
 
-```py
+```sh
 cqlite <csv_file> <query>
 ```
 
 e.g.
 
-```py
+```sh
 cqlite fakedata.csv "SELECT * FROM csv WHERE name LIKE '%Tommy% AND date_of_birth < '1980-01-01';"
 ```
 
-Save csv file as SQLite database:
+Save `<csv_file>.csv as a SQLite database (<csv_file>.db):
 
-```py
+```sh
 cqlite <csv_file> --persist
-```
-
-Alternatively you can directly query an existing sqlite db file (with a .sqlite or .db extension).
-
-```py
-cqlite fakedata.db "SELECT * FROM my_table_name WHERE name LIKE '%Tommy% AND date_of_birth < '1980-01-01';"
 ```
